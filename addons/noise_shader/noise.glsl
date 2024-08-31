@@ -29,7 +29,8 @@ int get_buffer_index(in ivec2 uv, in ivec2 size) {
 }
 
 void update_value(inout float value, in vec4 screen_color) {
-    value = value + clamp(screen_color.r, 0.0, 1.0) * params.speed;
+    float average = (screen_color.r + screen_color.g + screen_color.b) / 3.0;
+    value = value + clamp(average, 0.0, 1.0) * params.speed;
     value -= floor(value);
 }
 
