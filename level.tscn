@@ -16,6 +16,21 @@ uv1_triplanar = true
 inner_radius = 1.5
 outer_radius = 2.0
 
+[sub_resource type="Animation" id="Animation_nb1su"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Torus:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.447832, -0.281035, 0.588003)]
+}
+
 [sub_resource type="Animation" id="Animation_fsuds"]
 resource_name = "torus_animation"
 length = 10.0
@@ -33,25 +48,25 @@ tracks/0/keys = {
 "values": [Vector3(-0.447832, -0.281035, 0.588003), Vector3(0.523599, -1.5708, 2.0944), Vector3(0.769851, 2.17387, 0.471269), Vector3(0.551168, 0.461771, 1.6029), Vector3(-0.520568, -0.662953, 1.69238), Vector3(0.0833003, 0.498041, 2.31543), Vector3(-0.101623, -0.146656, -2.83339), Vector3(0.357815, -0.745239, -2.15622)]
 }
 
-[sub_resource type="Animation" id="Animation_nb1su"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_77374"]
+_data = {
+"RESET": SubResource("Animation_nb1su"),
+"torus_animation": SubResource("Animation_fsuds")
+}
+
+[sub_resource type="Animation" id="Animation_4dv2x"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Torus:rotation")
+tracks/0/path = NodePath("CSGCylinder3D/CSGBox3D:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(-0.447832, -0.281035, 0.588003)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_77374"]
-_data = {
-"RESET": SubResource("Animation_nb1su"),
-"torus_animation": SubResource("Animation_fsuds")
+"values": [Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_xqurx"]
@@ -70,21 +85,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_4dv2x"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CSGCylinder3D/CSGBox3D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lgxxc"]
@@ -134,7 +134,7 @@ use_collision = true
 size = Vector3(1.25, 2.25, 2.25)
 
 [node name="Torus" type="MeshInstance3D" parent="Noise"]
-transform = Transform3D(0.866026, -0.433012, -0.25, 0.5, 0.75, 0.433013, 1.49012e-08, -0.5, 0.866025, 0, 4.25, 0)
+transform = Transform3D(0.866026, -0.433013, -0.25, 0.500001, 0.75, 0.433012, 1.04308e-07, -0.5, 0.866025, 0, 4.25, 0)
 layers = 2
 mesh = SubResource("TorusMesh_85h66")
 
