@@ -40,6 +40,14 @@ func _init() -> void:
 	RenderingServer.call_on_render_thread(_initialize_compute)
 
 
+## Assigns a random value to each pixel of the noise.
+func randomize_noise() -> void:
+	for offset: int in range(0, _write_data.size(), 4):
+		_write_data.encode_float(offset, randf())
+	for offset: int in range(0, _read_data.size(), 4):
+		_read_data.encode_float(offset, randf())
+
+
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		if _shader.is_valid():
