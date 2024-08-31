@@ -47,11 +47,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
-stretch_shrink = 4
+stretch_shrink = 3
 
 [node name="NoiseViewport" type="SubViewport" parent="CanvasLayer/NoiseContainer"]
 handle_input_locally = false
-size = Vector2i(288, 162)
+size = Vector2i(384, 216)
 render_target_update_mode = 4
 
 [node name="NoiseCamera" type="Camera3D" parent="CanvasLayer/NoiseContainer/NoiseViewport"]
