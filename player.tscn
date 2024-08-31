@@ -1,0 +1,85 @@
+[gd_scene load_steps=7 format=3 uid="uid://bur8r8tojgkrb"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_vmav6"]
+[ext_resource type="Script" path="res://addons/noise_shader/post_process_noise.gd" id="2_pqsfe"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jrctm"]
+radius = 0.2
+height = 1.8
+
+[sub_resource type="Environment" id="Environment_v5m2k"]
+background_mode = 1
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_qprs4"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("2_pqsfe")
+add_random_noise = true
+steps = 3
+speed = 0.125
+
+[sub_resource type="Compositor" id="Compositor_g5vv0"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_qprs4")])
+
+[node name="Player" type="CharacterBody3D"]
+motion_mode = 1
+script = ExtResource("1_vmav6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_jrctm")
+
+[node name="CameraTransform" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="NoiseContainer" type="SubViewportContainer" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 4
+
+[node name="NoiseViewport" type="SubViewport" parent="CanvasLayer/NoiseContainer"]
+handle_input_locally = false
+size = Vector2i(288, 162)
+render_target_update_mode = 4
+
+[node name="NoiseCamera" type="Camera3D" parent="CanvasLayer/NoiseContainer/NoiseViewport"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+cull_mask = 1048574
+environment = SubResource("Environment_v5m2k")
+compositor = SubResource("Compositor_g5vv0")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="CanvasLayer/NoiseContainer/NoiseViewport/NoiseCamera"]
+layers = 2
+omni_range = 15.0
+
+[node name="RegularContainer" type="SubViewportContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="RegularViewport" type="SubViewport" parent="CanvasLayer/RegularContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="RegularCamera" type="Camera3D" parent="CanvasLayer/RegularContainer/RegularViewport"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+cull_mask = 1048573

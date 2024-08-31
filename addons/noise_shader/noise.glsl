@@ -11,6 +11,7 @@ layout(push_constant, std430) uniform Params {
     vec2 raster_size;
     vec2 reserved;
     int steps;
+    float speed;
 } params;
 
 layout(set = 1, binding = 1, std430) restrict buffer FloatBufferIn {
@@ -28,7 +29,7 @@ int get_buffer_index(in ivec2 uv, in ivec2 size) {
 }
 
 void update_value(inout float value, in vec4 screen_color) {
-    value = value + screen_color.r * 0.1;
+    value = value + clamp(screen_color.r, 0.0, 1.0) * params.speed;
     value -= floor(value);
 }
 

@@ -5,9 +5,17 @@ class_name PostProcessNoise
 const NOISE_SHADER_PATH: String = "res://addons/noise_shader/noise.glsl"
 const BYTES_PER_BUFFER_FLOAT: int = 4
 
+@export_group("Parameters")
+## If true, it randomizes each pixel every time the window is updated.
+@export var add_random_noise: bool = false
+## How many different colors there are.
 @export var steps: int = 3:
 	set(value):
 		steps = maxi(value, 2)
+## How fast each pixel of the noise is cycled through.
+@export var speed: float = 0.2:
+	set(value):
+		speed = clampf(value, 0.0, 1.0)
 
 var _huh: int = 0
 
@@ -89,6 +97,7 @@ func _render_callback(effect_callback_type: int, render_data: RenderData) -> voi
 		0.0,
 	]).to_byte_array())
 	push_constant.append_array(PackedInt32Array([steps]).to_byte_array())
+	push_constant.append_array(PackedFloat32Array([speed]).to_byte_array())
 	push_constant.resize(32)
 	
 	_rendering_device.buffer_update(_read_buffer, 0, _buffer_size, _read_data)
@@ -125,6 +134,12 @@ func _render_callback(effect_callback_type: int, render_data: RenderData) -> voi
 func _update_storage_set() -> void:
 	_read_data.resize(_buffer_size)
 	_write_data.resize(_buffer_size)
+	
+	if add_random_noise:
+		for offset: int in range(0, _write_data.size(), 4):
+			_write_data.encode_float(offset, randf())
+		for offset: int in range(0, _read_data.size(), 4):
+			_read_data.encode_float(offset, randf())
 	
 	var buffer_in := RDUniform.new()
 	buffer_in.uniform_type = RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER
