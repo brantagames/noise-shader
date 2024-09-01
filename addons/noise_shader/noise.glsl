@@ -8,7 +8,6 @@ layout(rgba16f, set = 0, binding = 0) uniform image2D screen_image;
 // Details parameters to be sent to the shader
 layout(push_constant, std430) uniform Params {
     vec2 raster_size;
-    vec2 reserved;
     int steps;
     float speed;
 } params;

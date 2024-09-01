@@ -1,5 +1,6 @@
 extends CompositorEffect
 class_name PostProcessNoise
+## Adds a noisy effect to a camera.
 
 
 const NOISE_SHADER_PATH: String = "res://addons/noise_shader/noise.glsl"
@@ -7,7 +8,7 @@ const BYTES_PER_BUFFER_FLOAT: int = 4
 
 @export_group("Parameters")
 ## If true, it randomizes each pixel every time the window is updated.
-@export var add_random_noise: bool = false
+@export var automatically_apply_noise: bool = false
 ## How many different colors there are.
 @export var steps: int = 3:
 	set(value):
@@ -17,19 +18,16 @@ const BYTES_PER_BUFFER_FLOAT: int = 4
 	set(value):
 		speed = clampf(value, 0.0, 1.0)
 
-var _huh: int = 0
-
 var _rendering_device: RenderingDevice
 var _shader: RID
 var _pipeline: RID
 
 var _buffer_size: int = 512 * 512 * BYTES_PER_BUFFER_FLOAT
 
-var _read_buffer: RID
-var _write_buffer: RID
-
 var _read_data: PackedByteArray = []
 var _write_data: PackedByteArray = []
+var _read_buffer: RID
+var _write_buffer: RID
 
 var _storage_set: RID
 
@@ -105,21 +103,11 @@ func _render_callback(effect_callback_type: int, render_data: RenderData) -> voi
 	var y_groups: int = (size.y - 1) / 8 + 1
 	var z_groups: int = 1
 	
-	var push_constant: PackedByteArray
-	push_constant.append_array(PackedFloat32Array([
-		size.x,
-		size.y,
-		0.0,
-		0.0,
-	]).to_byte_array())
-	push_constant.append_array(PackedInt32Array([steps]).to_byte_array())
-	push_constant.append_array(PackedFloat32Array([speed]).to_byte_array())
-	push_constant.resize(32)
+	var push_constant: PackedByteArray = _get_push_constant(size)
 	
 	_rendering_device.buffer_update(_read_buffer, 0, _buffer_size, _read_data)
 	
-	var view_count: int = render_scene_buffers.get_view_count()
-	for view_index: int in view_count:
+	for view_index: int in render_scene_buffers.get_view_count():
 		var screen_image := RDUniform.new()
 		screen_image.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
 		screen_image.binding = 0
@@ -144,18 +132,26 @@ func _render_callback(effect_callback_type: int, render_data: RenderData) -> voi
 		_rendering_device.compute_list_dispatch(compute_list, x_groups, y_groups, z_groups)
 		_rendering_device.compute_list_end()
 	
+	# This takes the output of the shader and puts it into the input.
 	_read_data = _rendering_device.buffer_get_data(_write_buffer)
+
+
+func _get_push_constant(size: Vector2) -> PackedByteArray:
+	var push_constant: PackedByteArray = []
+	push_constant.resize(16)
+	push_constant.encode_float(0, size.x)
+	push_constant.encode_float(4, size.y)
+	push_constant.encode_s32(8, steps)
+	push_constant.encode_float(12, speed)
+	return push_constant
 
 
 func _update_storage_set() -> void:
 	_read_data.resize(_buffer_size)
 	_write_data.resize(_buffer_size)
 	
-	if add_random_noise:
-		for offset: int in range(0, _write_data.size(), 4):
-			_write_data.encode_float(offset, randf())
-		for offset: int in range(0, _read_data.size(), 4):
-			_read_data.encode_float(offset, randf())
+	if automatically_apply_noise:
+		randomize_noise()
 	
 	var buffer_in := RDUniform.new()
 	buffer_in.uniform_type = RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER
