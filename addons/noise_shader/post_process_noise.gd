@@ -47,7 +47,7 @@ func randomize_noise() -> void:
 
 
 ## Assigns a value of 0.0 to each pixel of the noise.
-func remove_noise() -> void:
+func clear_noise() -> void:
 	for offset: int in range(0, _write_data.size(), 4):
 		_write_data.encode_float(offset, 0.0)
 	for offset: int in range(0, _read_data.size(), 4):

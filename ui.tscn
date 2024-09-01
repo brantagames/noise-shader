@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3 uid="uid://2cr7l7u55w4t"]
+
+[ext_resource type="Script" path="res://ui.gd" id="1_be8yx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ux3j"]
+bg_color = Color(0.129412, 0.129412, 0.129412, 0.772549)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_be8yx")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 368.0
+offset_bottom = 136.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7ux3j")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 376.0
+offset_bottom = 120.0
+bbcode_enabled = true
+text = "[b]SPACE[/b] - toggle effect:
+[b]N[/b] - toggle automatic noise application:
+
+[b]X[/b] - clear noise
+[b]R[/b] - randomize noise"
+scroll_active = false
+
+[node name="EffectStatus" type="Label" parent="Panel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 320.0
+offset_top = 8.0
+offset_right = 352.0
+offset_bottom = 32.0
+text = "On"
+horizontal_alignment = 1
+
+[node name="AutoNoiseStatus" type="Label" parent="Panel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 320.0
+offset_top = 32.0
+offset_right = 352.0
+offset_bottom = 56.0
+text = "On"
+horizontal_alignment = 1

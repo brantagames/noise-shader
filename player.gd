@@ -1,27 +1,26 @@
+class_name Player
 extends CharacterBody3D
 
 
 const SPEED: float = 2.5
+
+var noise_shader: PostProcessNoise
 
 var sensitivity: float = 0.15
 
 @onready var _camera_transform: Node3D = %CameraTransform
 @onready var _regular_camera: Camera3D = %RegularCamera
 @onready var _noise_camera: Camera3D = %NoiseCamera
-@onready var _noise_shader: PostProcessNoise = _noise_camera.compositor.compositor_effects[0]
 
 
 func _ready() -> void:
+	noise_shader = _noise_camera.compositor.compositor_effects[0]
 	DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_CAPTURED)
 
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		_input_mouse_motion(event)
-		return
-	
-	if event.is_action_pressed("toggle_effect"):
-		_noise_shader.enabled = not _noise_shader.enabled
 
 
 func _input_mouse_motion(event: InputEventMouseMotion) -> void:

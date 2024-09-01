@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bur8r8tojgkrb"]
+[gd_scene load_steps=8 format=3 uid="uid://bur8r8tojgkrb"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_vmav6"]
+[ext_resource type="PackedScene" uid="uid://2cr7l7u55w4t" path="res://ui.tscn" id="2_5lnn7"]
 [ext_resource type="Script" path="res://addons/noise_shader/post_process_noise.gd" id="2_pqsfe"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jrctm"]
@@ -83,3 +84,6 @@ render_target_update_mode = 4
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 cull_mask = 1048573
+
+[node name="Ui" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("2_5lnn7")]
+player = NodePath("../..")
