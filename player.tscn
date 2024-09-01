@@ -18,7 +18,7 @@ effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
 script = ExtResource("2_pqsfe")
-add_random_noise = true
+automatically_apply_noise = true
 steps = 3
 speed = 0.125
 
