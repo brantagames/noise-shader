@@ -26,3 +26,13 @@ func _toggle_effect() -> void:
 func _toggle_auto_noise() -> void:
 	player.noise_shader.automatically_apply_noise = not player.noise_shader.automatically_apply_noise
 	_auto_noise_status.text = "On" if player.noise_shader.automatically_apply_noise else "Off"
+
+
+func _on_step_slider_value_changed(value: float) -> void:
+	player.noise_shader.steps = int(value)
+	%StepLabel.text = str(int(value))
+
+
+func _on_speed_slider_value_changed(value: float) -> void:
+	player.noise_shader.speed = value
+	%SpeedLabel.text = "%.3f" % value

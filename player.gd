@@ -15,15 +15,21 @@ var sensitivity: float = 0.15
 
 func _ready() -> void:
 	noise_shader = _noise_camera.compositor.compositor_effects[0]
-	DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_CAPTURED)
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		_input_mouse_motion(event)
+	elif event is InputEventMouseButton and event.is_pressed():
+		DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_CAPTURED)
+	elif event.is_action_pressed("ui_cancel"):
+		DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_VISIBLE)
 
 
 func _input_mouse_motion(event: InputEventMouseMotion) -> void:
+	if DisplayServer.mouse_get_mode() != DisplayServer.MOUSE_MODE_CAPTURED:
+		return
+	
 	_camera_transform.rotation_degrees.y += -event.relative.x * sensitivity
 	_camera_transform.rotation_degrees.x += -event.relative.y * sensitivity
 	_camera_transform.rotation_degrees.x = clampf(

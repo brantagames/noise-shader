@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui.gd" id="1_be8yx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ux3j"]
-bg_color = Color(0.129412, 0.129412, 0.129412, 0.772549)
+bg_color = Color(0.0338533, 0.0338533, 0.0338533, 0.772549)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -16,6 +16,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_be8yx")
 
 [node name="Panel" type="Panel" parent="."]
@@ -23,21 +24,23 @@ layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 368.0
-offset_bottom = 136.0
+offset_bottom = 184.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_7ux3j")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 376.0
-offset_bottom = 120.0
+offset_right = 352.0
+offset_bottom = 168.0
 bbcode_enabled = true
 text = "[b]SPACE[/b] - toggle effect:
 [b]N[/b] - toggle automatic noise application:
 
 [b]X[/b] - clear noise
-[b]R[/b] - randomize noise"
+[b]R[/b] - randomize noise
+Steps:
+Speed:"
 scroll_active = false
 
 [node name="EffectStatus" type="Label" parent="Panel"]
@@ -59,3 +62,55 @@ offset_right = 352.0
 offset_bottom = 56.0
 text = "On"
 horizontal_alignment = 1
+
+[node name="StepLabel" type="Label" parent="Panel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 64.0
+offset_top = 120.0
+offset_right = 112.0
+offset_bottom = 152.0
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StepSlider" type="HSlider" parent="Panel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 120.0
+offset_top = 128.0
+offset_right = 352.0
+offset_bottom = 144.0
+min_value = 2.0
+max_value = 8.0
+value = 3.0
+allow_greater = true
+tick_count = 7
+ticks_on_borders = true
+
+[node name="SpeedLabel" type="Label" parent="Panel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 67.0
+offset_top = 144.0
+offset_right = 115.0
+offset_bottom = 176.0
+text = "0.125"
+vertical_alignment = 1
+
+[node name="SpeedSlider" type="HSlider" parent="Panel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 120.0
+offset_top = 152.0
+offset_right = 352.0
+offset_bottom = 168.0
+max_value = 0.5
+step = 0.005
+value = 0.125
+allow_greater = true
+tick_count = 5
+ticks_on_borders = true
+
+[connection signal="value_changed" from="Panel/StepSlider" to="." method="_on_step_slider_value_changed"]
+[connection signal="value_changed" from="Panel/SpeedSlider" to="." method="_on_speed_slider_value_changed"]
