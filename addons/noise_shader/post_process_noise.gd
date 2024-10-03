@@ -8,7 +8,7 @@ const BYTES_PER_BUFFER_FLOAT: int = 4
 
 @export_group("Parameters")
 ## If true, it randomizes each pixel every time the window is updated.
-@export var automatically_apply_noise: bool = false
+@export var randomize_noise_on_resize: bool = false
 ## How many different colors there are.
 @export var steps: int = 3:
 	set(value):
@@ -150,7 +150,7 @@ func _update_storage_set() -> void:
 	_read_data.resize(_buffer_size)
 	_write_data.resize(_buffer_size)
 	
-	if automatically_apply_noise:
+	if randomize_noise_on_resize:
 		randomize_noise()
 	
 	var buffer_in := RDUniform.new()

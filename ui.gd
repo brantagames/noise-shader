@@ -24,8 +24,8 @@ func _toggle_effect() -> void:
 
 
 func _toggle_auto_noise() -> void:
-	player.noise_shader.automatically_apply_noise = not player.noise_shader.automatically_apply_noise
-	_auto_noise_status.text = "On" if player.noise_shader.automatically_apply_noise else "Off"
+	player.noise_shader.randomize_noise_on_resize = not player.noise_shader.randomize_noise_on_resize
+	_auto_noise_status.text = "On" if player.noise_shader.randomize_noise_on_resize else "Off"
 
 
 func _on_step_slider_value_changed(value: float) -> void:

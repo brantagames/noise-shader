@@ -35,7 +35,7 @@ offset_right = 352.0
 offset_bottom = 168.0
 bbcode_enabled = true
 text = "[b]SPACE[/b] - toggle effect:
-[b]N[/b] - toggle automatic noise application:
+[b]N[/b] - toggle randomize noise on resize
 
 [b]X[/b] - clear noise
 [b]R[/b] - randomize noise
