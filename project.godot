@@ -16,10 +16,6 @@ config/features=PackedStringArray("4.3", "Mobile")
 run/max_fps=60
 config/icon="res://icon.svg"
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/noise_shader/plugin.cfg")
-
 [input]
 
 move_up={
