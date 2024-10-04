@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://bqg1e2wgm1rpm"]
 
 [ext_resource type="PackedScene" uid="uid://bur8r8tojgkrb" path="res://demo/player.tscn" id="1_ls1ab"]
-[ext_resource type="Texture2D" uid="uid://74k8oraxl3ao" path="res://icon.svg" id="2_mwhry"]
+[ext_resource type="Texture2D" uid="uid://74k8oraxl3ao" path="res://demo/icon.svg" id="2_mwhry"]
 
 [sub_resource type="Environment" id="Environment_nhmok"]
 ambient_light_source = 2
