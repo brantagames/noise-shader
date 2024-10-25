@@ -8,7 +8,7 @@ const BYTES_PER_BUFFER_FLOAT: int = 4
 
 @export_group("Parameters")
 ## If true, it randomizes each pixel every time the window is updated.
-@export var randomize_noise_on_resize: bool = false
+@export var randomize_noise_on_resize: bool = true
 ## How many different colors there are.
 @export var steps: int = 3:
 	set(value):
