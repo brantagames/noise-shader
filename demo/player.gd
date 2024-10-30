@@ -4,7 +4,7 @@ extends CharacterBody3D
 
 const SPEED: float = 2.5
 
-var noise_shader: PostProcessNoise
+var compositor: Compositor
 
 var sensitivity: float = 0.15
 
@@ -14,7 +14,7 @@ var sensitivity: float = 0.15
 
 
 func _ready() -> void:
-	noise_shader = _noise_camera.compositor.compositor_effects[0]
+	compositor = _noise_camera.compositor
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -22,6 +22,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_input_mouse_motion(event)
 	elif event is InputEventMouseButton and event.is_pressed():
 		DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_CAPTURED)
+		%UI.unfocus()
 	elif event.is_action_pressed("ui_cancel"):
 		DisplayServer.mouse_set_mode(DisplayServer.MOUSE_MODE_VISIBLE)
 

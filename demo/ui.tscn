@@ -9,7 +9,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="Ui" type="Control"]
+[node name="UI" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,15 +19,37 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_be8yx")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="ShaderTypePanel" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 368.0
-offset_bottom = 184.0
+offset_bottom = 40.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_7ux3j")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+[node name="ShaderTypeButton" type="OptionButton" parent="ShaderTypePanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 360.0
+offset_bottom = 32.0
+alignment = 1
+selected = 1
+item_count = 2
+popup/item_0/text = "Cycling Noise"
+popup/item_1/text = "Sliding Noise"
+popup/item_1/id = 1
+
+[node name="CyclePanel" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 368.0
+offset_bottom = 224.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7ux3j")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CyclePanel"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
@@ -43,7 +65,7 @@ Steps:
 Speed:"
 scroll_active = false
 
-[node name="EffectStatus" type="Label" parent="Panel"]
+[node name="CycleEffectStatus" type="Label" parent="CyclePanel"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 320.0
@@ -53,7 +75,7 @@ offset_bottom = 32.0
 text = "On"
 horizontal_alignment = 1
 
-[node name="AutoNoiseStatus" type="Label" parent="Panel"]
+[node name="CycleAutoNoiseStatus" type="Label" parent="CyclePanel"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 320.0
@@ -63,7 +85,7 @@ offset_bottom = 56.0
 text = "On"
 horizontal_alignment = 1
 
-[node name="StepLabel" type="Label" parent="Panel"]
+[node name="StepLabel" type="Label" parent="CyclePanel"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 64.0
@@ -74,7 +96,7 @@ text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StepSlider" type="HSlider" parent="Panel"]
+[node name="StepSlider" type="HSlider" parent="CyclePanel"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 120.0
@@ -88,7 +110,7 @@ allow_greater = true
 tick_count = 7
 ticks_on_borders = true
 
-[node name="SpeedLabel" type="Label" parent="Panel"]
+[node name="SpeedLabel" type="Label" parent="CyclePanel"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 67.0
@@ -98,7 +120,7 @@ offset_bottom = 176.0
 text = "0.125"
 vertical_alignment = 1
 
-[node name="SpeedSlider" type="HSlider" parent="Panel"]
+[node name="SpeedSlider" type="HSlider" parent="CyclePanel"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 120.0
@@ -112,5 +134,128 @@ allow_greater = true
 tick_count = 5
 ticks_on_borders = true
 
-[connection signal="value_changed" from="Panel/StepSlider" to="." method="_on_step_slider_value_changed"]
-[connection signal="value_changed" from="Panel/SpeedSlider" to="." method="_on_speed_slider_value_changed"]
+[node name="SlidePanel" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 368.0
+offset_bottom = 272.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7ux3j")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="SlidePanel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 352.0
+offset_bottom = 216.0
+bbcode_enabled = true
+text = "[b]SPACE[/b] - toggle effect:
+[b]N[/b] - toggle randomize noise on resize
+
+[b]X[/b] - clear noise
+[b]R[/b] - randomize noise
+[b]I[/b] - invert effect
+Frames per Update:
+X Slide:
+Y Slide:"
+scroll_active = false
+
+[node name="SlideEffectStatus" type="Label" parent="SlidePanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 320.0
+offset_top = 8.0
+offset_right = 352.0
+offset_bottom = 32.0
+text = "On"
+horizontal_alignment = 1
+
+[node name="SlideAutoNoiseStatus" type="Label" parent="SlidePanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 320.0
+offset_top = 32.0
+offset_right = 352.0
+offset_bottom = 56.0
+text = "On"
+horizontal_alignment = 1
+
+[node name="FramesPerUpdateLabel" type="Label" parent="SlidePanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 160.0
+offset_top = 144.0
+offset_right = 208.0
+offset_bottom = 176.0
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FramesPerUpdateSlider" type="HSlider" parent="SlidePanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 208.0
+offset_top = 152.0
+offset_right = 352.0
+offset_bottom = 168.0
+min_value = 1.0
+max_value = 60.0
+value = 1.0
+tick_count = 5
+ticks_on_borders = true
+
+[node name="XSlideLabel" type="Label" parent="SlidePanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 64.0
+offset_top = 168.0
+offset_right = 112.0
+offset_bottom = 200.0
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="XSlideSlider" type="HSlider" parent="SlidePanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 120.0
+offset_top = 176.0
+offset_right = 352.0
+offset_bottom = 192.0
+min_value = -4.0
+max_value = 4.0
+tick_count = 9
+ticks_on_borders = true
+
+[node name="YSlideLabel" type="Label" parent="SlidePanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 64.0
+offset_top = 192.0
+offset_right = 112.0
+offset_bottom = 224.0
+text = "1
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="YSlideSlider" type="HSlider" parent="SlidePanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 120.0
+offset_top = 200.0
+offset_right = 352.0
+offset_bottom = 216.0
+min_value = -4.0
+max_value = 4.0
+value = 1.0
+tick_count = 9
+ticks_on_borders = true
+
+[connection signal="item_selected" from="ShaderTypePanel/ShaderTypeButton" to="." method="_on_shader_type_button_item_selected"]
+[connection signal="value_changed" from="CyclePanel/StepSlider" to="." method="_on_step_slider_value_changed"]
+[connection signal="value_changed" from="CyclePanel/SpeedSlider" to="." method="_on_speed_slider_value_changed"]
+[connection signal="value_changed" from="SlidePanel/FramesPerUpdateSlider" to="." method="_on_frames_per_update_slider_value_changed"]
+[connection signal="value_changed" from="SlidePanel/XSlideSlider" to="." method="_on_x_slide_slider_value_changed"]
+[connection signal="value_changed" from="SlidePanel/YSlideSlider" to="." method="_on_y_slide_slider_value_changed"]

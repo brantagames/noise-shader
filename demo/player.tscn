@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bur8r8tojgkrb"]
+[gd_scene load_steps=10 format=3 uid="uid://bur8r8tojgkrb"]
 
 [ext_resource type="Script" path="res://demo/player.gd" id="1_vmav6"]
 [ext_resource type="PackedScene" uid="uid://2cr7l7u55w4t" path="res://demo/ui.tscn" id="2_5lnn7"]
-[ext_resource type="Script" path="res://addons/noise_shader/post_process_noise.gd" id="2_pqsfe"]
+[ext_resource type="Script" path="res://addons/noise_shader/post_process_slide_noise.gd" id="2_cd385"]
+[ext_resource type="Script" path="res://addons/noise_shader/post_process_noise.gd" id="2_oj6wa"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jrctm"]
 radius = 0.2
@@ -11,20 +12,33 @@ height = 1.8
 [sub_resource type="Environment" id="Environment_v5m2k"]
 background_mode = 1
 
-[sub_resource type="CompositorEffect" id="CompositorEffect_qprs4"]
+[sub_resource type="CompositorEffect" id="CompositorEffect_suxox"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("2_oj6wa")
+randomize_noise_on_resize = true
+steps = 3
+speed = 0.15
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_8c6vb"]
 resource_local_to_scene = false
 resource_name = ""
 enabled = true
 effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
-script = ExtResource("2_pqsfe")
+script = ExtResource("2_cd385")
 randomize_noise_on_resize = true
-steps = 3
-speed = 0.125
+direction = Vector2i(0, 1)
+invert = false
+frames_per_update = 1
 
 [sub_resource type="Compositor" id="Compositor_g5vv0"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_qprs4")])
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_suxox"), SubResource("CompositorEffect_8c6vb")])
 
 [node name="Player" type="CharacterBody3D"]
 motion_mode = 1
@@ -85,5 +99,6 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 cull_mask = 1048573
 
-[node name="Ui" parent="CanvasLayer" node_paths=PackedStringArray("player") instance=ExtResource("2_5lnn7")]
-player = NodePath("../..")
+[node name="UI" parent="CanvasLayer" node_paths=PackedStringArray("noise_camera") instance=ExtResource("2_5lnn7")]
+unique_name_in_owner = true
+noise_camera = NodePath("../NoiseContainer/NoiseViewport/NoiseCamera")
