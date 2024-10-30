@@ -1,22 +1,24 @@
 extends CompositorEffect
-class_name PostProcessNoise
+class_name SlidingNoiseEffect
 ## Adds a noisy effect to a camera.
 
 
-const NOISE_SHADER_PATH: String = "res://addons/noise_shader/noise.glsl"
+const NOISE_SHADER_PATH: String = "res://addons/noise_shader/sliding_noise.glsl"
 const BYTES_PER_BUFFER_FLOAT: int = 4
 
 @export_group("Parameters")
 ## If true, it randomizes each pixel every time the window is updated.
 @export var randomize_noise_on_resize: bool = true
-## How many different colors there are.
-@export var steps: int = 3:
+## The direction the noise slides
+@export var direction: Vector2i = Vector2i.DOWN
+## Determines which part of the image slides
+@export var invert: bool = false
+## How many frames happen per update. Higher numbers make the sliding slower
+@export_range(1, 60) var frames_per_update: int = 1:
 	set(value):
-		steps = maxi(value, 2)
-## How fast each pixel of the noise is cycled through.
-@export var speed: float = 0.2:
-	set(value):
-		speed = clampf(value, 0.0, 1.0)
+		frames_per_update = maxi(value, 1)
+
+var _frame: int = 1
 
 var _rendering_device: RenderingDevice
 var _shader: RID
@@ -26,8 +28,10 @@ var _buffer_size: int = 512 * 512 * BYTES_PER_BUFFER_FLOAT
 
 var _read_data: PackedByteArray = []
 var _write_data: PackedByteArray = []
+var _random_data: PackedByteArray = []
 var _read_buffer: RID
 var _write_buffer: RID
+var _random_buffer: RID
 
 var _storage_set: RID
 
@@ -40,10 +44,8 @@ func _init() -> void:
 
 ## Assigns a random value to each pixel of the noise.
 func randomize_noise() -> void:
-	for offset: int in range(0, _write_data.size(), 4):
-		_write_data.encode_float(offset, randf())
-	for offset: int in range(0, _read_data.size(), 4):
-		_read_data.encode_float(offset, randf())
+	_randomize_data(_write_data)
+	_randomize_data(_read_data)
 
 
 ## Assigns a value of 0.0 to each pixel of the noise.
@@ -103,8 +105,23 @@ func _render_callback(effect_callback_type: int, render_data: RenderData) -> voi
 	var y_groups: int = (size.y - 1) / 8 + 1
 	var z_groups: int = 1
 	
-	var push_constant: PackedByteArray = _get_push_constant(size)
+	var update: bool = false
+	if _frame % frames_per_update == 0:
+		update = true
+		_frame = 1
+	else:
+		_frame += 1
 	
+	var push_constant: PackedByteArray = _get_push_constant(size, update)
+	
+	# instead of randomizing each individual element, we can just shuffle the random array around
+	# this performs much better
+	var shuffle_data: Array = Array(_random_data.to_float32_array())
+	shuffle_data.shuffle()
+	_random_data = PackedFloat32Array(shuffle_data).to_byte_array()
+	#_randomize_data(_random_data)
+	
+	_rendering_device.buffer_update(_random_buffer, 0, _buffer_size, _random_data)
 	_rendering_device.buffer_update(_read_buffer, 0, _buffer_size, _read_data)
 	
 	for view_index: int in render_scene_buffers.get_view_count():
@@ -136,19 +153,21 @@ func _render_callback(effect_callback_type: int, render_data: RenderData) -> voi
 	_read_data = _rendering_device.buffer_get_data(_write_buffer)
 
 
-func _get_push_constant(size: Vector2) -> PackedByteArray:
+func _get_push_constant(size: Vector2, do_update: bool) -> PackedByteArray:
 	var push_constant: PackedByteArray = []
-	push_constant.resize(16)
+	push_constant.resize(32)
 	push_constant.encode_float(0, size.x)
 	push_constant.encode_float(4, size.y)
-	push_constant.encode_s32(8, steps)
-	push_constant.encode_float(12, speed)
+	push_constant.encode_s32(8, direction.x * int(do_update))
+	push_constant.encode_s32(12, direction.y * int(do_update))
+	push_constant.encode_s32(16, int(invert))
 	return push_constant
 
 
 func _update_storage_set() -> void:
 	_read_data.resize(_buffer_size)
 	_write_data.resize(_buffer_size)
+	_random_data.resize(_buffer_size)
 	
 	if randomize_noise_on_resize:
 		randomize_noise()
@@ -165,8 +184,20 @@ func _update_storage_set() -> void:
 	_write_buffer = _rendering_device.storage_buffer_create(_buffer_size, _write_data)
 	buffer_out.add_id(_write_buffer)
 	
+	var random_in := RDUniform.new()
+	random_in.uniform_type = RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER
+	random_in.binding = 3
+	_randomize_data(_random_data)
+	_random_buffer = _rendering_device.storage_buffer_create(_buffer_size, _random_data)
+	random_in.add_id(_random_buffer)
+	
 	_storage_set = _rendering_device.uniform_set_create(
-		[buffer_in, buffer_out],
+		[buffer_in, buffer_out, random_in],
 		_shader,
 		1,
 	)
+
+
+func _randomize_data(data: PackedByteArray) -> void:
+	for offset: int in range(0, data.size(), 4):
+		data.encode_float(offset, randf())

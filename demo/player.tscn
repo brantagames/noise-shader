@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://demo/player.gd" id="1_vmav6"]
 [ext_resource type="PackedScene" uid="uid://2cr7l7u55w4t" path="res://demo/ui.tscn" id="2_5lnn7"]
-[ext_resource type="Script" path="res://addons/noise_shader/post_process_slide_noise.gd" id="2_cd385"]
-[ext_resource type="Script" path="res://addons/noise_shader/post_process_noise.gd" id="2_oj6wa"]
+[ext_resource type="Script" path="res://addons/noise_shader/sliding_noise_effect.gd" id="2_cd385"]
+[ext_resource type="Script" path="res://addons/noise_shader/cycling_noise_effect.gd" id="2_oj6wa"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jrctm"]
 radius = 0.2

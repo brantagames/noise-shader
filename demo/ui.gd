@@ -8,8 +8,8 @@ var _is_effect_on: bool = true
 var _randomize_noise_on_resize: bool = true
 
 @onready var _compositor_effects: Array[CompositorEffect] = noise_camera.compositor.compositor_effects
-@onready var _cycle_noise_effect: PostProcessNoise = _compositor_effects[0]
-@onready var _slide_noise_effect: PostProcessSlideNoise = _compositor_effects[1]
+@onready var _cycle_noise_effect: CyclingNoiseEffect = _compositor_effects[0]
+@onready var _slide_noise_effect: SlidingNoiseEffect = _compositor_effects[1]
 
 @onready var _effect_panels: Array[Panel] = [
 	%CyclePanel,

@@ -1,6 +1,6 @@
 # Noise Shader
 
-This addon adds **PostProcessNoise**, which is a **CompositorEffect** that can be added to cameras.
+This addon adds **CyclingNoiseEffect**, which is a **CompositorEffect** that can be added to cameras.
 The shader takes the brightness output of the camera and adds it to the noise, cycling through the colors.
 This creates an image that can only be seen while its playing.
 
