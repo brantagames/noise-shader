@@ -57,7 +57,7 @@ func _toggle_effect() -> void:
 	_is_effect_on = not _is_effect_on
 	
 	var text: String = "On" if _is_effect_on else "Off"
-	%cycleEffectStatus.text = text
+	%CycleEffectStatus.text = text
 	%SlideEffectStatus.text = text
 	
 	for effect: CompositorEffect in _compositor_effects:
@@ -72,7 +72,7 @@ func _toggle_auto_noise() -> void:
 	_cycle_noise_effect.randomize_noise_on_resize = _randomize_noise_on_resize
 	_slide_noise_effect.randomize_noise_on_resize = _randomize_noise_on_resize
 	
-	%cycleAutoNoiseStatus.text = text
+	%CycleAutoNoiseStatus.text = text
 	%SlideAutoNoiseStatus.text = text
 
 
