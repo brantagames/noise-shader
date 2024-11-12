@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://cb08tu6uy3ae"
+path="res://.godot/imported/colorful_noise.glsl-a6f0e6411766f4d326c443e2a46d6f7c.res"
+
+[deps]
+
+source_file="res://addons/noise_shader/colorful_noise.glsl"
+dest_files=["res://.godot/imported/colorful_noise.glsl-a6f0e6411766f4d326c443e2a46d6f7c.res"]
+
+[params]
+

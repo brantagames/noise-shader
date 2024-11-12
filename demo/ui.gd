@@ -10,10 +10,12 @@ var _randomize_noise_on_resize: bool = true
 @onready var _compositor_effects: Array[CompositorEffect] = noise_camera.compositor.compositor_effects
 @onready var _cycle_noise_effect: CyclingNoiseEffect = _compositor_effects[0]
 @onready var _slide_noise_effect: SlidingNoiseEffect = _compositor_effects[1]
+@onready var _color_noise_effect: ColorfulNoiseEffect = _compositor_effects[2]
 
 @onready var _effect_panels: Array[Panel] = [
 	%CyclePanel,
 	%SlidePanel,
+	%ColorPanel,
 ]
 
 
@@ -25,9 +27,13 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("func_clear_noise"):
 		_cycle_noise_effect.clear_noise()
 		_slide_noise_effect.clear_noise()
+		_color_noise_effect.clear_noise()
 	elif event.is_action_pressed("func_randomize_noise"):
 		_cycle_noise_effect.randomize_noise()
 		_slide_noise_effect.randomize_noise()
+		_color_noise_effect.randomize_noise()
+	elif event.is_action_pressed("func_white_out_noise"):
+		_color_noise_effect.white_out_noise()
 	elif event.is_action_pressed("toggle_invert"):
 		_slide_noise_effect.invert = not _slide_noise_effect.invert
 
@@ -59,6 +65,7 @@ func _toggle_effect() -> void:
 	var text: String = "On" if _is_effect_on else "Off"
 	%CycleEffectStatus.text = text
 	%SlideEffectStatus.text = text
+	%ColorEffectStatus.text = text
 	
 	for effect: CompositorEffect in _compositor_effects:
 		effect.enabled = false
@@ -71,9 +78,11 @@ func _toggle_auto_noise() -> void:
 	
 	_cycle_noise_effect.randomize_noise_on_resize = _randomize_noise_on_resize
 	_slide_noise_effect.randomize_noise_on_resize = _randomize_noise_on_resize
+	_color_noise_effect.randomize_noise_on_resize = _randomize_noise_on_resize
 	
 	%CycleAutoNoiseStatus.text = text
 	%SlideAutoNoiseStatus.text = text
+	%ColorAutoNoiseStatus.text = text
 
 
 func _on_step_slider_value_changed(value: float) -> void:
@@ -99,3 +108,28 @@ func _on_x_slide_slider_value_changed(value: int) -> void:
 func _on_y_slide_slider_value_changed(value: int) -> void:
 	_slide_noise_effect.direction.y = value
 	%YSlideLabel.text = str(value)
+
+
+func _on_value_step_slider_value_changed(value: int) -> void:
+	_color_noise_effect.value_steps = value
+	%ValueStepLabel.text = str(value)
+
+
+func _on_value_speed_slider_value_changed(value: float) -> void:
+	_color_noise_effect.value_speed = value
+	%ValueSpeedLabel.text = str(value)
+
+
+func _on_hue_step_slider_value_changed(value: int) -> void:
+	_color_noise_effect.hue_steps = value
+	%HueStepLabel.text = str(value)
+
+
+func _on_hue_speed_slider_value_changed(value: float) -> void:
+	_color_noise_effect.hue_speed = value
+	%HueSpeedLabel.text = str(value)
+
+
+func _on_hue_offset_slider_value_changed(value: float) -> void:
+	_color_noise_effect.hue_offset = value
+	%HueOffsetLabel.text = str(value)

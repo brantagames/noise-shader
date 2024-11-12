@@ -34,10 +34,12 @@ offset_right = 360.0
 offset_bottom = 32.0
 alignment = 1
 selected = 1
-item_count = 2
+item_count = 3
 popup/item_0/text = "Cycling Noise"
 popup/item_1/text = "Sliding Noise"
 popup/item_1/id = 1
+popup/item_2/text = "Colorful Noise"
+popup/item_2/id = 2
 
 [node name="CyclePanel" type="Panel" parent="."]
 unique_name_in_owner = true
@@ -253,9 +255,186 @@ value = 1.0
 tick_count = 9
 ticks_on_borders = true
 
+[node name="ColorPanel" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 368.0
+offset_bottom = 312.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7ux3j")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ColorPanel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 352.0
+offset_bottom = 264.0
+bbcode_enabled = true
+text = "[b]SPACE[/b] - toggle effect:
+[b]N[/b] - toggle randomize noise on resize
+
+[b]X[/b] - clear noise
+[b]R[/b] - randomize noise
+[b]O[/b] - white out noise
+Value Steps:
+Value Speed:
+Hue Steps:
+Hue Speed:
+Hue Offset:"
+scroll_active = false
+
+[node name="ColorEffectStatus" type="Label" parent="ColorPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 320.0
+offset_top = 8.0
+offset_right = 352.0
+offset_bottom = 32.0
+text = "On"
+horizontal_alignment = 1
+
+[node name="ColorAutoNoiseStatus" type="Label" parent="ColorPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 320.0
+offset_top = 32.0
+offset_right = 352.0
+offset_bottom = 56.0
+text = "On"
+horizontal_alignment = 1
+
+[node name="ValueStepLabel" type="Label" parent="ColorPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 104.0
+offset_top = 146.0
+offset_right = 152.0
+offset_bottom = 170.0
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ValueStepSlider" type="HSlider" parent="ColorPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 152.0
+offset_top = 149.0
+offset_right = 352.0
+offset_bottom = 165.0
+min_value = 2.0
+max_value = 8.0
+value = 2.0
+allow_greater = true
+tick_count = 7
+ticks_on_borders = true
+
+[node name="ValueSpeedLabel" type="Label" parent="ColorPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 112.0
+offset_top = 168.0
+offset_right = 160.0
+offset_bottom = 192.0
+text = "0.125"
+vertical_alignment = 1
+
+[node name="ValueSpeedSlider" type="HSlider" parent="ColorPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 168.0
+offset_top = 172.0
+offset_right = 352.0
+offset_bottom = 188.0
+max_value = 0.5
+step = 0.005
+value = 0.125
+allow_greater = true
+tick_count = 5
+ticks_on_borders = true
+
+[node name="HueStepLabel" type="Label" parent="ColorPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 88.0
+offset_top = 191.0
+offset_right = 136.0
+offset_bottom = 215.0
+text = "255"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HueStepSlider" type="HSlider" parent="ColorPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 136.0
+offset_top = 195.0
+offset_right = 352.0
+offset_bottom = 211.0
+min_value = 2.0
+max_value = 255.0
+value = 255.0
+exp_edit = true
+allow_greater = true
+tick_count = 7
+ticks_on_borders = true
+
+[node name="HueSpeedLabel" type="Label" parent="ColorPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 104.0
+offset_top = 214.0
+offset_right = 152.0
+offset_bottom = 238.0
+text = "0.1"
+vertical_alignment = 1
+
+[node name="HueSpeedSlider" type="HSlider" parent="ColorPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 160.0
+offset_top = 219.0
+offset_right = 352.0
+offset_bottom = 235.0
+max_value = 0.5
+step = 0.005
+value = 0.1
+allow_greater = true
+tick_count = 5
+ticks_on_borders = true
+
+[node name="HueOffsetLabel" type="Label" parent="ColorPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 104.0
+offset_top = 238.0
+offset_right = 152.0
+offset_bottom = 262.0
+text = "0.0"
+vertical_alignment = 1
+
+[node name="HueOffsetSlider" type="HSlider" parent="ColorPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 144.0
+offset_top = 241.0
+offset_right = 352.0
+offset_bottom = 257.0
+max_value = 1.0
+step = 0.005
+allow_greater = true
+tick_count = 5
+ticks_on_borders = true
+
 [connection signal="item_selected" from="ShaderTypePanel/ShaderTypeButton" to="." method="_on_shader_type_button_item_selected"]
 [connection signal="value_changed" from="CyclePanel/StepSlider" to="." method="_on_step_slider_value_changed"]
 [connection signal="value_changed" from="CyclePanel/SpeedSlider" to="." method="_on_speed_slider_value_changed"]
 [connection signal="value_changed" from="SlidePanel/FramesPerUpdateSlider" to="." method="_on_frames_per_update_slider_value_changed"]
 [connection signal="value_changed" from="SlidePanel/XSlideSlider" to="." method="_on_x_slide_slider_value_changed"]
 [connection signal="value_changed" from="SlidePanel/YSlideSlider" to="." method="_on_y_slide_slider_value_changed"]
+[connection signal="value_changed" from="ColorPanel/ValueStepSlider" to="." method="_on_value_step_slider_value_changed"]
+[connection signal="value_changed" from="ColorPanel/ValueSpeedSlider" to="." method="_on_value_speed_slider_value_changed"]
+[connection signal="value_changed" from="ColorPanel/HueStepSlider" to="." method="_on_hue_step_slider_value_changed"]
+[connection signal="value_changed" from="ColorPanel/HueSpeedSlider" to="." method="_on_hue_speed_slider_value_changed"]
+[connection signal="value_changed" from="ColorPanel/HueOffsetSlider" to="." method="_on_hue_offset_slider_value_changed"]

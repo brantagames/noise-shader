@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bqg1e2wgm1rpm"]
+[gd_scene load_steps=15 format=3 uid="uid://bqg1e2wgm1rpm"]
 
 [ext_resource type="PackedScene" uid="uid://bur8r8tojgkrb" path="res://demo/player.tscn" id="1_ls1ab"]
 [ext_resource type="Texture2D" uid="uid://74k8oraxl3ao" path="res://demo/icon.svg" id="2_mwhry"]
@@ -11,6 +11,18 @@ ambient_light_color = Color(1, 1, 1, 1)
 albedo_texture = ExtResource("2_mwhry")
 uv1_offset = Vector3(0.5, 0, 0.5)
 uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qrbji"]
+albedo_color = Color(0, 1, 0, 1)
+metallic_specular = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kbw2h"]
+albedo_color = Color(1, 0, 0, 1)
+metallic_specular = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hmjxx"]
+albedo_color = Color(1, 1, 0, 1)
+metallic_specular = 0.0
 
 [sub_resource type="TorusMesh" id="TorusMesh_85h66"]
 inner_radius = 1.5
@@ -133,8 +145,26 @@ layers = 2
 use_collision = true
 size = Vector3(1.25, 2.25, 2.25)
 
+[node name="CSGBox3D3" type="CSGBox3D" parent="Noise"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.168, 0.5, 7.922)
+layers = 2
+use_collision = true
+material = SubResource("StandardMaterial3D_qrbji")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Noise"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4923, 0.5, 9.09363)
+layers = 2
+use_collision = true
+material = SubResource("StandardMaterial3D_kbw2h")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Noise"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.939335, 0.5, 9.26474)
+layers = 2
+use_collision = true
+material = SubResource("StandardMaterial3D_hmjxx")
+
 [node name="Torus" type="MeshInstance3D" parent="Noise"]
-transform = Transform3D(0.866026, -0.433013, -0.25, 0.500001, 0.75, 0.433012, 1.04308e-07, -0.5, 0.866025, 0, 4.25, 0)
+transform = Transform3D(0.866026, -0.433013, -0.25, 0.500001, 0.75, 0.433012, 1.04308e-07, -0.5, 0.866024, 0, 4.25, 0)
 layers = 2
 mesh = SubResource("TorusMesh_85h66")
 
@@ -163,3 +193,9 @@ autoplay = "spin"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 layers = 2
 size = Vector3(0.5, 0.5, 2.5)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Noise"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.08439, -0.782432, -6.8621)
+layers = 2
+radius = 1.847
+material = SubResource("StandardMaterial3D_qrbji")
