@@ -25,6 +25,7 @@ albedo_color = Color(1, 1, 0, 1)
 metallic_specular = 0.0
 
 [sub_resource type="TorusMesh" id="TorusMesh_85h66"]
+material = SubResource("StandardMaterial3D_qrbji")
 inner_radius = 1.5
 outer_radius = 2.0
 
