@@ -2,6 +2,7 @@ extends Control
 
 
 @export var noise_camera: Camera3D
+@export var face_light: OmniLight3D
 
 var _effect_index: int = 1
 var _is_effect_on: bool = true
@@ -39,7 +40,6 @@ func _input(event: InputEvent) -> void:
 		_color_noise_effect.white_out_noise()
 	elif event.is_action_pressed("toggle_invert"):
 		_slide_noise_effect.invert = not _slide_noise_effect.invert
-		_variable_slide_noise_effect.invert = not _variable_slide_noise_effect.invert
 
 
 func unfocus() -> void:
@@ -153,7 +153,7 @@ func _on_hue_offset_slider_value_changed(value: float) -> void:
 
 
 func _on_variable_button_toggled(toggled_on: bool) -> void:
-	%SpeedStepsSlider.visible = toggled_on
+	%VariablePanel.visible = toggled_on
 	_effect_index = 1 if not toggled_on else 3
 	if toggled_on:
 		_slide_noise_effect.enabled = false
@@ -164,4 +164,15 @@ func _on_variable_button_toggled(toggled_on: bool) -> void:
 
 
 func _on_speed_steps_slider_value_changed(value: int) -> void:
-	_compositor_effects[3].speed_steps = value
+	_variable_slide_noise_effect.speed_steps = value
+	%SpeedStepLabel.text = str(value)
+
+
+func _on_brightness_exponent_slider_value_changed(value: float) -> void:
+	_variable_slide_noise_effect.brightness_exponent = value
+	%BrightnessExponentLabel.text = "%1.2f" % value
+
+
+func _on_light_attenuation_slider_value_changed(value: float) -> void:
+	face_light.omni_attenuation = value
+	%LightAttenuationLabel.text = "%1.2f" % value

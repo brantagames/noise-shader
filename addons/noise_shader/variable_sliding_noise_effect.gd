@@ -11,10 +11,10 @@ const BYTES_PER_BUFFER_FLOAT: int = 4
 @export var randomize_noise_on_resize: bool = true
 ## The direction the noise slides
 @export var direction: Vector2i = Vector2i.DOWN
-## Determines which part of the image slides
-@export var invert: bool = false
 ## How many different speeds the image can slide
 @export_range(1, 64) var speed_steps: int = 2
+## Controls how the speed attenuates
+@export_range(0.0, 1.0) var brightness_exponent: float = 0.5
 ## How many frames happen per update. Higher numbers make the sliding slower
 @export_range(1, 60) var frames_per_update: int = 1:
 	set(value):
@@ -107,14 +107,8 @@ func _render_callback(effect_callback_type: int, render_data: RenderData) -> voi
 	var y_groups: int = (size.y - 1) / 8 + 1
 	var z_groups: int = 1
 	
-	var update: bool = false
-	if _frame % frames_per_update == 0:
-		update = true
-		_frame = 1
-	else:
-		_frame += 1
-	
-	var push_constant: PackedByteArray = _get_push_constant(size, update)
+	_frame += 1
+	var push_constant: PackedByteArray = _get_push_constant(size)
 	
 	# instead of randomizing each individual element, we can just shuffle the random array around
 	# this performs much better
@@ -155,15 +149,16 @@ func _render_callback(effect_callback_type: int, render_data: RenderData) -> voi
 	_read_data = _rendering_device.buffer_get_data(_write_buffer)
 
 
-func _get_push_constant(size: Vector2, do_update: bool) -> PackedByteArray:
+func _get_push_constant(size: Vector2) -> PackedByteArray:
 	var push_constant: PackedByteArray = []
 	push_constant.resize(32)
 	push_constant.encode_float(0, size.x)
 	push_constant.encode_float(4, size.y)
-	push_constant.encode_s32(8, direction.x * int(do_update))
-	push_constant.encode_s32(12, direction.y * int(do_update))
-	push_constant.encode_s32(16, int(invert))
-	push_constant.encode_s32(20, speed_steps)
+	push_constant.encode_s32(8, direction.x)
+	push_constant.encode_s32(12, direction.y)
+	push_constant.encode_s32(16, speed_steps)
+	push_constant.encode_s32(20, _frame)
+	push_constant.encode_float(24, brightness_exponent)
 	return push_constant
 
 
