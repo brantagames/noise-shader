@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://cecxmm6rcjqpy"
+path="res://.godot/imported/variable_sliding_noise.glsl-386f3e8d2111de936e87e8d52363b7f4.res"
+
+[deps]
+
+source_file="res://addons/noise_shader/variable_sliding_noise.glsl"
+dest_files=["res://.godot/imported/variable_sliding_noise.glsl-386f3e8d2111de936e87e8d52363b7f4.res"]
+
+[params]
+

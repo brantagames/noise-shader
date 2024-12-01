@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bqg1e2wgm1rpm"]
+[gd_scene load_steps=19 format=3 uid="uid://bqg1e2wgm1rpm"]
 
 [ext_resource type="PackedScene" uid="uid://bur8r8tojgkrb" path="res://demo/player.tscn" id="1_ls1ab"]
 [ext_resource type="Texture2D" uid="uid://74k8oraxl3ao" path="res://demo/icon.svg" id="2_mwhry"]
@@ -11,6 +11,10 @@ ambient_light_color = Color(1, 1, 1, 1)
 albedo_texture = ExtResource("2_mwhry")
 uv1_offset = Vector3(0.5, 0, 0.5)
 uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ubx4t"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m3ddn"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qrbji"]
 albedo_color = Color(0, 1, 0, 1)
@@ -67,6 +71,8 @@ _data = {
 "torus_animation": SubResource("Animation_fsuds")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fgyxo"]
+
 [sub_resource type="Animation" id="Animation_4dv2x"]
 length = 0.001
 tracks/0/type = "value"
@@ -106,6 +112,8 @@ _data = {
 "spin": SubResource("Animation_xqurx")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e38fc"]
+
 [node name="Level" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -139,12 +147,14 @@ transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -0.5, 0.87
 layers = 2
 use_collision = true
 size = Vector3(1, 1.75, 1)
+material = SubResource("StandardMaterial3D_ubx4t")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Noise"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.375, 1.125, 4.375)
 layers = 2
 use_collision = true
 size = Vector3(1.25, 2.25, 2.25)
+material = SubResource("StandardMaterial3D_m3ddn")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Noise"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.168, 0.5, 7.922)
@@ -182,6 +192,7 @@ layers = 2
 use_collision = true
 height = 3.0
 sides = 16
+material = SubResource("StandardMaterial3D_fgyxo")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Noise/CSGCylinder3D"]
 root_node = NodePath("../..")
@@ -194,6 +205,7 @@ autoplay = "spin"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 layers = 2
 size = Vector3(0.5, 0.5, 2.5)
+material = SubResource("StandardMaterial3D_e38fc")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="Noise"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.08439, -0.782432, -6.8621)

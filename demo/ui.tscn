@@ -142,7 +142,7 @@ layout_mode = 0
 offset_left = 8.0
 offset_top = 48.0
 offset_right = 368.0
-offset_bottom = 272.0
+offset_bottom = 296.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_7ux3j")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="SlidePanel"]
@@ -150,7 +150,7 @@ layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 352.0
-offset_bottom = 216.0
+offset_bottom = 248.0
 bbcode_enabled = true
 text = "[b]SPACE[/b] - toggle effect:
 [b]N[/b] - toggle randomize noise on resize
@@ -160,7 +160,8 @@ text = "[b]SPACE[/b] - toggle effect:
 [b]I[/b] - invert effect
 Frames per Update:
 X Slide:
-Y Slide:"
+Y Slide:
+Is Variable:"
 scroll_active = false
 
 [node name="SlideEffectStatus" type="Label" parent="SlidePanel"]
@@ -222,9 +223,9 @@ vertical_alignment = 1
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 120.0
-offset_top = 176.0
+offset_top = 174.0
 offset_right = 352.0
-offset_bottom = 192.0
+offset_bottom = 190.0
 min_value = -4.0
 max_value = 4.0
 tick_count = 9
@@ -246,14 +247,35 @@ vertical_alignment = 1
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 120.0
-offset_top = 200.0
+offset_top = 197.0
 offset_right = 352.0
-offset_bottom = 216.0
+offset_bottom = 213.0
 min_value = -4.0
 max_value = 4.0
 value = 1.0
 tick_count = 9
 ticks_on_borders = true
+
+[node name="VariableButton" type="CheckButton" parent="SlidePanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 96.0
+offset_top = 216.0
+offset_right = 140.0
+offset_bottom = 240.0
+
+[node name="SpeedStepsSlider" type="HSlider" parent="SlidePanel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 144.0
+offset_top = 216.0
+offset_right = 352.0
+offset_bottom = 240.0
+min_value = 1.0
+max_value = 6.0
+value = 2.0
+tick_count = 6
 
 [node name="ColorPanel" type="Panel" parent="."]
 unique_name_in_owner = true
@@ -433,6 +455,8 @@ ticks_on_borders = true
 [connection signal="value_changed" from="SlidePanel/FramesPerUpdateSlider" to="." method="_on_frames_per_update_slider_value_changed"]
 [connection signal="value_changed" from="SlidePanel/XSlideSlider" to="." method="_on_x_slide_slider_value_changed"]
 [connection signal="value_changed" from="SlidePanel/YSlideSlider" to="." method="_on_y_slide_slider_value_changed"]
+[connection signal="toggled" from="SlidePanel/VariableButton" to="." method="_on_variable_button_toggled"]
+[connection signal="value_changed" from="SlidePanel/SpeedStepsSlider" to="." method="_on_speed_steps_slider_value_changed"]
 [connection signal="value_changed" from="ColorPanel/ValueStepSlider" to="." method="_on_value_step_slider_value_changed"]
 [connection signal="value_changed" from="ColorPanel/ValueSpeedSlider" to="." method="_on_value_speed_slider_value_changed"]
 [connection signal="value_changed" from="ColorPanel/HueStepSlider" to="." method="_on_hue_step_slider_value_changed"]

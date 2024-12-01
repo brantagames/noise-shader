@@ -11,6 +11,7 @@ var _randomize_noise_on_resize: bool = true
 @onready var _cycle_noise_effect: CyclingNoiseEffect = _compositor_effects[0]
 @onready var _slide_noise_effect: SlidingNoiseEffect = _compositor_effects[1]
 @onready var _color_noise_effect: ColorfulNoiseEffect = _compositor_effects[2]
+@onready var _variable_slide_noise_effect: VariableSlidingNoiseEffect = _compositor_effects[3]
 
 @onready var _effect_panels: Array[Panel] = [
 	%CyclePanel,
@@ -28,14 +29,17 @@ func _input(event: InputEvent) -> void:
 		_cycle_noise_effect.clear_noise()
 		_slide_noise_effect.clear_noise()
 		_color_noise_effect.clear_noise()
+		_variable_slide_noise_effect.clear_noise()
 	elif event.is_action_pressed("func_randomize_noise"):
 		_cycle_noise_effect.randomize_noise()
 		_slide_noise_effect.randomize_noise()
 		_color_noise_effect.randomize_noise()
+		_variable_slide_noise_effect.randomize_noise()
 	elif event.is_action_pressed("func_white_out_noise"):
 		_color_noise_effect.white_out_noise()
 	elif event.is_action_pressed("toggle_invert"):
 		_slide_noise_effect.invert = not _slide_noise_effect.invert
+		_variable_slide_noise_effect.invert = not _variable_slide_noise_effect.invert
 
 
 func unfocus() -> void:
@@ -45,6 +49,12 @@ func unfocus() -> void:
 	%FramesPerUpdateSlider.release_focus()
 	%XSlideSlider.release_focus()
 	%YSlideSlider.release_focus()
+	%ValueSpeedSlider.release_focus()
+	%ValueSpeedSlider.release_focus()
+	%HueStepSlider.release_focus()
+	%HueSpeedSlider.release_focus()
+	%VariableButton.release_focus()
+	%SpeedStepsSlider.release_focus()
 
 
 func _on_shader_type_button_item_selected(index: int) -> void:
@@ -53,6 +63,9 @@ func _on_shader_type_button_item_selected(index: int) -> void:
 	for panel: Panel in _effect_panels:
 		panel.hide()
 	_effect_panels[_effect_index].show()
+	
+	if _effect_index == 1 and %VariableButton.button_pressed:
+		_effect_index = 3
 	
 	for effect: CompositorEffect in _compositor_effects:
 		effect.enabled = false
@@ -79,6 +92,7 @@ func _toggle_auto_noise() -> void:
 	_cycle_noise_effect.randomize_noise_on_resize = _randomize_noise_on_resize
 	_slide_noise_effect.randomize_noise_on_resize = _randomize_noise_on_resize
 	_color_noise_effect.randomize_noise_on_resize = _randomize_noise_on_resize
+	_variable_slide_noise_effect.randomize_noise_on_resize = _randomize_noise_on_resize
 	
 	%CycleAutoNoiseStatus.text = text
 	%SlideAutoNoiseStatus.text = text
@@ -97,16 +111,19 @@ func _on_speed_slider_value_changed(value: float) -> void:
 
 func _on_frames_per_update_slider_value_changed(value: int) -> void:
 	_slide_noise_effect.frames_per_update = value
+	_variable_slide_noise_effect.frames_per_update = value
 	%FramesPerUpdateLabel.text = str(value)
 
 
 func _on_x_slide_slider_value_changed(value: int) -> void:
 	_slide_noise_effect.direction.x = value
+	_variable_slide_noise_effect.direction.x = value
 	%XSlideLabel.text = str(value)
 
 
 func _on_y_slide_slider_value_changed(value: int) -> void:
 	_slide_noise_effect.direction.y = value
+	_variable_slide_noise_effect.direction.y = value
 	%YSlideLabel.text = str(value)
 
 
@@ -133,3 +150,18 @@ func _on_hue_speed_slider_value_changed(value: float) -> void:
 func _on_hue_offset_slider_value_changed(value: float) -> void:
 	_color_noise_effect.hue_offset = value
 	%HueOffsetLabel.text = str(value)
+
+
+func _on_variable_button_toggled(toggled_on: bool) -> void:
+	%SpeedStepsSlider.visible = toggled_on
+	_effect_index = 1 if not toggled_on else 3
+	if toggled_on:
+		_slide_noise_effect.enabled = false
+		_variable_slide_noise_effect.enabled = true
+	else:
+		_slide_noise_effect.enabled = true
+		_variable_slide_noise_effect.enabled = false
+
+
+func _on_speed_steps_slider_value_changed(value: int) -> void:
+	_compositor_effects[3].speed_steps = value

@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://bur8r8tojgkrb"]
+[gd_scene load_steps=14 format=3 uid="uid://bur8r8tojgkrb"]
 
 [ext_resource type="Script" path="res://demo/player.gd" id="1_vmav6"]
 [ext_resource type="PackedScene" uid="uid://2cr7l7u55w4t" path="res://demo/ui.tscn" id="2_5lnn7"]
 [ext_resource type="Script" path="res://addons/noise_shader/sliding_noise_effect.gd" id="2_cd385"]
 [ext_resource type="Script" path="res://addons/noise_shader/cycling_noise_effect.gd" id="2_oj6wa"]
 [ext_resource type="Script" path="res://addons/noise_shader/colorful_noise_effect.gd" id="4_j4vfr"]
+[ext_resource type="Script" path="res://addons/noise_shader/variable_sliding_noise_effect.gd" id="5_eh6yv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jrctm"]
 radius = 0.2
@@ -53,8 +54,22 @@ hue_steps = 255
 hue_speed = 0.125
 hue_offset = 0.0
 
+[sub_resource type="CompositorEffect" id="CompositorEffect_un0rp"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("5_eh6yv")
+randomize_noise_on_resize = true
+direction = Vector2i(0, 1)
+invert = false
+speed_steps = 2
+frames_per_update = 1
+
 [sub_resource type="Compositor" id="Compositor_g5vv0"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_suxox"), SubResource("CompositorEffect_8c6vb"), SubResource("CompositorEffect_vea1b")])
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_suxox"), SubResource("CompositorEffect_8c6vb"), SubResource("CompositorEffect_vea1b"), SubResource("CompositorEffect_un0rp")])
 
 [node name="Player" type="CharacterBody3D"]
 motion_mode = 1
@@ -94,6 +109,7 @@ compositor = SubResource("Compositor_g5vv0")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="CanvasLayer/NoiseContainer/NoiseViewport/NoiseCamera"]
 layers = 2
+light_specular = 0.0
 omni_range = 15.0
 
 [node name="RegularContainer" type="SubViewportContainer" parent="CanvasLayer"]
