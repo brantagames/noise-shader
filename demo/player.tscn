@@ -66,7 +66,6 @@ randomize_noise_on_resize = true
 direction = Vector2i(0, 1)
 speed_steps = 2
 brightness_exponent = 0.5
-frames_per_update = 1
 
 [sub_resource type="Compositor" id="Compositor_g5vv0"]
 compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_suxox"), SubResource("CompositorEffect_8c6vb"), SubResource("CompositorEffect_vea1b"), SubResource("CompositorEffect_un0rp")])

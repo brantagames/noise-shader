@@ -15,10 +15,6 @@ const BYTES_PER_BUFFER_FLOAT: int = 4
 @export_range(1, 64) var speed_steps: int = 2
 ## Controls how the speed attenuates
 @export_range(0.0, 1.0) var brightness_exponent: float = 0.5
-## How many frames happen per update. Higher numbers make the sliding slower
-@export_range(1, 60) var frames_per_update: int = 1:
-	set(value):
-		frames_per_update = maxi(value, 1)
 
 var _frame: int = 1
 
