@@ -67,6 +67,11 @@ func _on_shader_type_button_item_selected(index: int) -> void:
 	if _effect_index == 1 and %VariableButton.button_pressed:
 		_effect_index = 3
 	
+	if _effect_index != 3:
+		%VariablePanel.hide()
+	else:
+		%VariablePanel.show()
+	
 	for effect: CompositorEffect in _compositor_effects:
 		effect.enabled = false
 	_compositor_effects[_effect_index].enabled = _is_effect_on
@@ -155,6 +160,10 @@ func _on_hue_offset_slider_value_changed(value: float) -> void:
 func _on_variable_button_toggled(toggled_on: bool) -> void:
 	%VariablePanel.visible = toggled_on
 	_effect_index = 1 if not toggled_on else 3
+	
+	if not _is_effect_on:
+		return
+	
 	if toggled_on:
 		_slide_noise_effect.enabled = false
 		_variable_slide_noise_effect.enabled = true

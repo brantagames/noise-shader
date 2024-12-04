@@ -447,6 +447,7 @@ offset_bottom = 392.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_7ux3j")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="VariablePanel"]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 352.0
@@ -459,6 +460,7 @@ scroll_active = false
 
 [node name="SpeedStepLabel" type="Label" parent="VariablePanel"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 101.0
 offset_top = 4.0
 offset_right = 149.0
@@ -481,6 +483,7 @@ tick_count = 6
 
 [node name="BrightnessExponentLabel" type="Label" parent="VariablePanel"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 170.0
 offset_top = 29.0
 offset_right = 218.0
@@ -503,6 +506,7 @@ tick_count = 5
 
 [node name="LightAttenuationLabel" type="Label" parent="VariablePanel"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 144.0
 offset_top = 51.0
 offset_right = 192.0
