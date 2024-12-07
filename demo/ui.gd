@@ -116,7 +116,6 @@ func _on_speed_slider_value_changed(value: float) -> void:
 
 func _on_frames_per_update_slider_value_changed(value: int) -> void:
 	_slide_noise_effect.frames_per_update = value
-	_variable_slide_noise_effect.frames_per_update = value
 	%FramesPerUpdateLabel.text = str(value)
 
 
