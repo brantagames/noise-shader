@@ -6,7 +6,7 @@ This creates an image that can only be seen while its playing.
 
 ## Usage
 
-All you have to do is add one of the three effects (**CyclingNoiseEffect**, **SlidingNoiseEffect**, **VariableSlidingNoiseEffect**, or **ColorfulNoiseEffect**) to your camera's compositor effects.
+All you have to do is add one of the four effects (**CyclingNoiseEffect**, **SlidingNoiseEffect**, **VariableSlidingNoiseEffect**, or **ColorfulNoiseEffect**) to your camera's compositor effects.
 To make the effect good, the scene's setup needs to work well with the shader.
 In the first person demo, I give the player camera an **OmniLight3D**, which makes closer objects brighter.
 I also recommend making the sky black, so it doesn't interfere with the noise.
